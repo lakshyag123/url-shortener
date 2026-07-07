@@ -1,26 +1,29 @@
 ﻿
 ## UI (Screenshots to add)
 
-This section will include screenshots of the front-end UI showing example usage. Add images (e.g., screenshots/ui-1.png, screenshots/ui-2.png) illustrating:
-
+This section will include screenshots of the front-end UI showing example usage. 
 - Home page with the URL input form and optional alias field.
 - Shortened URL result with copy button and analytics panel.
 
-Insert each image using Markdown where appropriate. Example:
+<img width="1917" height="669" alt="Home" src="https://github.com/user-attachments/assets/923eba1a-398f-4290-b39f-0569cf3b10bd" />
 
-![Home](/screenshots/ui-1.png)
+<img width="1920" height="888" alt="Create" src="https://github.com/user-attachments/assets/b0ba6d8b-c44a-4267-aa2e-a7022163dc3e" />
 
+<img width="1920" height="1020" alt="Analytics" src="https://github.com/user-attachments/assets/73e580c5-91b4-4ed0-b74d-d5e2e2b62870" />
 
 ## Swagger / Backend (Screenshots to add)
 
-This section will include screenshots of the Swagger (OpenAPI) UI demonstrating the API endpoints and example requests/responses. Add images (e.g., screenshots/swagger-1.png, screenshots/swagger-2.png) illustrating:
+This section will include screenshots of the Swagger (OpenAPI) UI demonstrating the API endpoints and example requests/responses.
 
 - POST /shorten example request and response.
 - GET /{code} redirect behavior and GET /analytics/{code} response schema.
 
-Insert each image using Markdown where appropriate. Example:
 
-![Swagger POST shorten](/screenshots/swagger-1.png)
+<img width="1920" height="1020" alt="Swagger-UI" src="https://github.com/user-attachments/assets/82fc3274-9bc5-4c8d-8a3f-0ccfce27132f" />
+
+<img width="1920" height="961" alt="POST_1" src="https://github.com/user-attachments/assets/26968147-b358-4281-8a6f-46b6551dfc1f" />
+
+<img width="1920" height="972" alt="POST_2" src="https://github.com/user-attachments/assets/baddbbb7-6be8-4d66-b8a3-fd703856e81f" />
 
 # URL Shortener
 
