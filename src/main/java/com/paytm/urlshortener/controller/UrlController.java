@@ -1,4 +1,4 @@
-package com.paytm.urlshortener.controller;
+﻿package com.paytm.urlshortener.controller;
 
 import com.paytm.urlshortener.dto.CreateShortUrlRequest;
 import com.paytm.urlshortener.dto.CreateShortUrlResponse;
@@ -29,7 +29,7 @@ import java.net.URI;
 @Tag(name = "URL Shortener", description = "Create short URLs, redirect and view analytics")
 public class UrlController {
 
-    private final UrlService urlService;
+    private final UrlService urlService;`n    private final UrlRepository urlRepository;
 
     @Operation(summary = "Create a short URL", description = "Shortens an original URL; optional customAlias allowed")
     @ApiResponse(responseCode = "201", description = "Created", content = @Content(schema = @Schema(implementation = CreateShortUrlResponse.class)))
@@ -64,6 +64,18 @@ public class UrlController {
         return new ResponseEntity<>(headers, HttpStatus.FOUND);
     }
 
+    
+    @Operation(summary = "Resolve code without redirect", description = "Returns original URL and metadata without performing a redirect")
+    @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = CreateShortUrlResponse.class)))
+    @ApiResponse(responseCode = "404", description = "Short code not found")
+    @GetMapping(path = "/resolve/{code}", produces = "application/json")
+    public ResponseEntity<CreateShortUrlResponse> resolve(@PathVariable("code") String code) {
+        UrlMapping mapping = urlRepository.findByShortCode(code)
+                .orElseThrow(() -> new ResourceNotFoundException("Short code not found: " + code));
+        CreateShortUrlResponse resp = new CreateShortUrlResponse(mapping.getShortCode(), mapping.getOriginalUrl(), mapping.getCreatedAt());
+        return ResponseEntity.ok(resp);
+    }
+
     @Operation(summary = "Get analytics for a short code")
     @ApiResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = UrlStatsResponse.class)))
     @ApiResponse(responseCode = "404", description = "Short code not found")
@@ -73,3 +85,4 @@ public class UrlController {
         return ResponseEntity.ok(stats);
     }
 }
+
