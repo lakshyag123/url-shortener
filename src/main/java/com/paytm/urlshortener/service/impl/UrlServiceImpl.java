@@ -1,4 +1,4 @@
-﻿package com.paytm.urlshortener.service.impl;
+package com.paytm.urlshortener.service.impl;
 
 import com.paytm.urlshortener.dto.CreateShortUrlRequest;
 import com.paytm.urlshortener.dto.CreateShortUrlResponse;

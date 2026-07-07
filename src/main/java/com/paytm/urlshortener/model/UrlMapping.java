@@ -1,4 +1,4 @@
-﻿package com.paytm.urlshortener.model;
+package com.paytm.urlshortener.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;

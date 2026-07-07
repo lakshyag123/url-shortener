@@ -1,4 +1,4 @@
-﻿package com.paytm.urlshortener.exception;
+package com.paytm.urlshortener.exception;
 
 /**
  * Thrown when attempting to create a short code/custom alias that already exists.

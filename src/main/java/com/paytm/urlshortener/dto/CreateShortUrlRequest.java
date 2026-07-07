@@ -1,4 +1,4 @@
-﻿package com.paytm.urlshortener.dto;
+package com.paytm.urlshortener.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;

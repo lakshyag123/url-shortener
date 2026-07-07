@@ -1,4 +1,4 @@
-﻿package com.paytm.urlshortener.controller;
+package com.paytm.urlshortener.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.paytm.urlshortener.dto.CreateShortUrlRequest;

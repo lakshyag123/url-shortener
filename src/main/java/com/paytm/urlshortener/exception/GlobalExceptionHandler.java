@@ -1,4 +1,4 @@
-﻿package com.paytm.urlshortener.exception;
+package com.paytm.urlshortener.exception;
 
 import com.paytm.urlshortener.dto.ErrorResponse;
 import jakarta.validation.ConstraintViolationException;

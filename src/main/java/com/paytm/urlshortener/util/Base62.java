@@ -1,4 +1,4 @@
-﻿package com.paytm.urlshortener.util;
+package com.paytm.urlshortener.util;
 
 /**
  * Production-ready Base62 encoder/decoder.

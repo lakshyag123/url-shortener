@@ -1,4 +1,4 @@
-﻿package com.paytm.urlshortener.repository;
+package com.paytm.urlshortener.repository;
 
 import com.paytm.urlshortener.model.UrlMapping;
 import org.springframework.data.jpa.repository.JpaRepository;

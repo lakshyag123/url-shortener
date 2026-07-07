@@ -1,4 +1,4 @@
-﻿package com.paytm.urlshortener.exception;
+package com.paytm.urlshortener.exception;
 
 /**
  * Thrown when a requested resource (e.g., a short code) cannot be found.

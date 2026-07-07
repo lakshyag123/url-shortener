@@ -1,4 +1,4 @@
-﻿package com.paytm.urlshortener.service;
+package com.paytm.urlshortener.service;
 
 import com.paytm.urlshortener.dto.CreateShortUrlRequest;
 import com.paytm.urlshortener.dto.CreateShortUrlResponse;
@@ -10,10 +10,7 @@ import com.paytm.urlshortener.service.impl.UrlServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
-import org.mockito.Captor;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.jdbc.core.JdbcTemplate;
 
@@ -105,7 +102,8 @@ class UrlServiceImplTest {
     void redirect_success_increments() {
         UrlMapping m = UrlMapping.builder().id(5L).originalUrl("https://x").shortCode("c1").clickCount(0L).createdAt(Instant.now()).build();
         when(urlRepository.findByShortCode("c1")).thenReturn(Optional.of(m));
-        when(jdbcTemplate.update(anyString(), any())).thenReturn(1);
+        when(jdbcTemplate.update(anyString(), ArgumentMatchers.<Object>any()))
+                .thenReturn(1);
 
         String target = urlService.redirect("c1");
         assertEquals("https://x", target);

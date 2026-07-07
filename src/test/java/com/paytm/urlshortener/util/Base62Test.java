@@ -1,4 +1,4 @@
-﻿package com.paytm.urlshortener.util;
+package com.paytm.urlshortener.util;
 
 import org.junit.jupiter.api.Test;
 
