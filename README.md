@@ -25,6 +25,9 @@ This section will include screenshots of the Swagger (OpenAPI) UI demonstrating 
 
 <img width="1920" height="972" alt="POST_2" src="https://github.com/user-attachments/assets/baddbbb7-6be8-4d66-b8a3-fd703856e81f" />
 
+<img width="1920" height="962" alt="Swagger_Analytics" src="https://github.com/user-attachments/assets/74f7a6a0-386b-43b5-af5e-deb5a097efbc" />
+
+
 # URL Shortener
 
 This repository implements a production-oriented URL Shortener using Java 21, Spring Boot 3, PostgreSQL, Flyway, JPA, Thymeleaf and Bootstrap.
