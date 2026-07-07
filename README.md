@@ -1,5 +1,5 @@
 ﻿
-## UI (Screenshots to add)
+## URL SHORTENER UI 
 
 This section will include screenshots of the front-end UI showing example usage. 
 - Home page with the URL input form and optional alias field.
@@ -11,7 +11,7 @@ This section will include screenshots of the front-end UI showing example usage.
 
 <img width="1920" height="1020" alt="Analytics" src="https://github.com/user-attachments/assets/73e580c5-91b4-4ed0-b74d-d5e2e2b62870" />
 
-## Swagger / Backend (Screenshots to add)
+## Swagger / Backend 
 
 This section will include screenshots of the Swagger (OpenAPI) UI demonstrating the API endpoints and example requests/responses.
 
