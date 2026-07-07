@@ -5,6 +5,7 @@ import com.paytm.urlshortener.dto.CreateShortUrlRequest;
 import com.paytm.urlshortener.dto.CreateShortUrlResponse;
 import com.paytm.urlshortener.dto.UrlStatsResponse;
 import com.paytm.urlshortener.exception.ResourceNotFoundException;
+import com.paytm.urlshortener.repository.UrlRepository;
 import com.paytm.urlshortener.service.UrlService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -37,6 +38,9 @@ class UrlControllerTest {
 
     @MockitoBean
     private UrlService urlService;
+
+    @MockitoBean
+    private UrlRepository urlRepository;
 
     @Test
     void shorten_returnsCreated() throws Exception {

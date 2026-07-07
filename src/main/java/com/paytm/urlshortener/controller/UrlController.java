@@ -1,8 +1,11 @@
-﻿package com.paytm.urlshortener.controller;
+package com.paytm.urlshortener.controller;
 
 import com.paytm.urlshortener.dto.CreateShortUrlRequest;
 import com.paytm.urlshortener.dto.CreateShortUrlResponse;
 import com.paytm.urlshortener.dto.UrlStatsResponse;
+import com.paytm.urlshortener.exception.ResourceNotFoundException;
+import com.paytm.urlshortener.model.UrlMapping;
+import com.paytm.urlshortener.repository.UrlRepository;
 import com.paytm.urlshortener.service.UrlService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,7 +32,8 @@ import java.net.URI;
 @Tag(name = "URL Shortener", description = "Create short URLs, redirect and view analytics")
 public class UrlController {
 
-    private final UrlService urlService;`n    private final UrlRepository urlRepository;
+    private final UrlService urlService;
+    private final UrlRepository urlRepository;
 
     @Operation(summary = "Create a short URL", description = "Shortens an original URL; optional customAlias allowed")
     @ApiResponse(responseCode = "201", description = "Created", content = @Content(schema = @Schema(implementation = CreateShortUrlResponse.class)))
