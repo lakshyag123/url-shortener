@@ -1,4 +1,4 @@
-package com.paytm.urlshortener.repository;
+﻿package com.paytm.urlshortener.repository;
 
 import com.paytm.urlshortener.model.UrlMapping;
 import org.junit.jupiter.api.Test;
@@ -10,7 +10,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DataJpaTest
+@DataJpaTest(properties = "spring.flyway.enabled=false")
 class UrlRepositoryTest {
 
     @Autowired
@@ -32,3 +32,4 @@ class UrlRepositoryTest {
         assertThat(urlRepository.existsByShortCode("r2")).isTrue();
     }
 }
+

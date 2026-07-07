@@ -1,4 +1,4 @@
-package com.paytm.urlshortener.controller;
+﻿package com.paytm.urlshortener.controller;
 
 import com.paytm.urlshortener.dto.CreateShortUrlRequest;
 import com.paytm.urlshortener.dto.CreateShortUrlResponse;
@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -17,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -38,12 +38,13 @@ public class UrlController {
     @PostMapping(path = "/shorten", consumes = "application/json", produces = "application/json")
     public ResponseEntity<CreateShortUrlResponse> shorten(
             @Valid
-            @RequestBody(description = "Request to create a short URL",
+            @RequestBody
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(description = "Request to create a short URL",
                     content = @Content(mediaType = "application/json",
                             schema = @Schema(implementation = CreateShortUrlRequest.class),
                             examples = @ExampleObject(name = "example",
                                     value = "{\"originalUrl\": \"https://www.paytm.com/offers/special?page=1\", \"customAlias\": \"paytm-offer\"}")))
-                    CreateShortUrlRequest request) {
+            CreateShortUrlRequest request) {
         CreateShortUrlResponse resp = urlService.shortenUrl(request);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .replacePath("/{code}")
