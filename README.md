@@ -1,4 +1,28 @@
-﻿# URL Shortener
+﻿
+## UI (Screenshots to add)
+
+This section will include screenshots of the front-end UI showing example usage. Add images (e.g., screenshots/ui-1.png, screenshots/ui-2.png) illustrating:
+
+- Home page with the URL input form and optional alias field.
+- Shortened URL result with copy button and analytics panel.
+
+Insert each image using Markdown where appropriate. Example:
+
+![Home](/screenshots/ui-1.png)
+
+
+## Swagger / Backend (Screenshots to add)
+
+This section will include screenshots of the Swagger (OpenAPI) UI demonstrating the API endpoints and example requests/responses. Add images (e.g., screenshots/swagger-1.png, screenshots/swagger-2.png) illustrating:
+
+- POST /shorten example request and response.
+- GET /{code} redirect behavior and GET /analytics/{code} response schema.
+
+Insert each image using Markdown where appropriate. Example:
+
+![Swagger POST shorten](/screenshots/swagger-1.png)
+
+# URL Shortener
 
 This repository implements a production-oriented URL Shortener using Java 21, Spring Boot 3, PostgreSQL, Flyway, JPA, Thymeleaf and Bootstrap.
 
@@ -66,3 +90,4 @@ OpenAPI docs available via SpringDoc (configure dependency and visit /swagger-ui
 ---
 
 For deployment, ensure secrets and DB credentials are supplied via environment or externalized configuration. If you'd like, the next steps can add Redis caching or CI workflow.
+
