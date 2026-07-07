@@ -50,11 +50,13 @@ public class UrlController {
                                     value = "{\"originalUrl\": \"https://www.paytm.com/offers/special?page=1\", \"customAlias\": \"paytm-offer\"}")))
             CreateShortUrlRequest request) {
         CreateShortUrlResponse resp = urlService.shortenUrl(request);
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .replacePath("/{code}")
+        String fullShortUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/{code}")
                 .buildAndExpand(resp.shortCode())
-                .toUri();
-        return ResponseEntity.created(location).body(resp);
+                .toUriString();
+        URI location = URI.create(fullShortUrl);
+        CreateShortUrlResponse fullResp = new CreateShortUrlResponse(resp.shortCode(), fullShortUrl, resp.createdAt());
+        return ResponseEntity.created(location).body(fullResp);
     }
 
     @Operation(summary = "Redirect to original URL", description = "Performs 302 redirect to the original URL for the given code")
@@ -76,7 +78,11 @@ public class UrlController {
     public ResponseEntity<CreateShortUrlResponse> resolve(@PathVariable("code") String code) {
         UrlMapping mapping = urlRepository.findByShortCode(code)
                 .orElseThrow(() -> new ResourceNotFoundException("Short code not found: " + code));
-        CreateShortUrlResponse resp = new CreateShortUrlResponse(mapping.getShortCode(), mapping.getOriginalUrl(), mapping.getCreatedAt());
+        String fullShortUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/{code}")
+                .buildAndExpand(mapping.getShortCode())
+                .toUriString();
+        CreateShortUrlResponse resp = new CreateShortUrlResponse(mapping.getShortCode(), fullShortUrl, mapping.getCreatedAt());
         return ResponseEntity.ok(resp);
     }
 
