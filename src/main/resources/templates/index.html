@@ -1,0 +1,162 @@
+﻿<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Paytm-style URL Shortener</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    /* Paytm-like professional theme: teal/blue accents */
+    :root{--brand:#00a6e4;--accent:#0b69c6;--muted:#6c757d}
+    body{background:linear-gradient(180deg,#f7fbfd,white);min-height:100vh}
+    .brand{color:var(--brand)}
+    .card-hero{border:0;border-radius:1rem;box-shadow:0 6px 24px rgba(11,105,198,0.08)}
+    .btn-brand{background:linear-gradient(90deg,var(--brand),var(--accent));color:#fff;border:0}
+    .short-link{font-weight:600;color:var(--accent)}
+    .muted{color:var(--muted)}
+    @media (max-width:576px){ .hero-title{font-size:1.25rem} }
+  </style>
+</head>
+<body>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card card-hero p-4">
+        <div class="d-flex align-items-center mb-3">
+          <div class="me-3">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="24" height="24" rx="6" fill="#00a6e4"></rect>
+              <path d="M7 12h10" stroke="#fff" stroke-width="1.5" stroke-linecap="round"></path>
+              <path d="M7 8h10" stroke="#fff" stroke-width="1.5" stroke-linecap="round"></path>
+            </svg>
+          </div>
+          <div>
+            <h1 class="h4 mb-0 hero-title brand">Paytm URL Shortener</h1>
+            <div class="muted">Shorten links quickly and securely</div>
+          </div>
+        </div>
+
+        <form id="shortenForm" class="row g-2">
+          <div class="col-12">
+            <label for="originalUrl" class="form-label">Original URL</label>
+            <input type="url" class="form-control form-control-lg" id="originalUrl" placeholder="https://example.com/very/long/url" required>
+          </div>
+          <div class="col-md-8">
+            <label for="customAlias" class="form-label">Custom Alias (optional)</label>
+            <input type="text" class="form-control" id="customAlias" placeholder="e.g. paytm-offer">
+          </div>
+          <div class="col-md-4 d-flex align-items-end">
+            <button id="shortenBtn" type="submit" class="btn btn-brand w-100">Shorten</button>
+          </div>
+        </form>
+
+        <div class="mt-4" id="resultArea" style="display:none">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div>
+              <div class="muted">Shortened URL</div>
+              <a id="shortLink" class="short-link" href="#" target="_blank"></a>
+            </div>
+            <div>
+              <button id="copyBtn" class="btn btn-outline-secondary">Copy</button>
+            </div>
+          </div>
+
+          <div class="card p-3 bg-light">
+            <h6 class="mb-2">Analytics</h6>
+            <div class="row">
+              <div class="col-sm-4">
+                <div class="muted">Total Clicks</div>
+                <div id="totalClicks" class="h5">—</div>
+              </div>
+              <div class="col-sm-4">
+                <div class="muted">Created</div>
+                <div id="createdAt">—</div>
+              </div>
+              <div class="col-sm-4">
+                <div class="muted">Code</div>
+                <div id="codeVal" class="short-link">—</div>
+              </div>
+            </div>
+            <div class="mt-3" id="dailyStats"></div>
+          </div>
+        </div>
+
+        <div class="mt-3 text-muted small">
+          By using this service you agree to our <a href="#">terms</a> and <a href="#">privacy</a>.
+        </div>
+      </div>
+
+      <footer class="text-center mt-4 muted">&copy; Paytm 2026</footer>
+    </div>
+  </div>
+</div>
+
+<script>
+  const form = document.getElementById('shortenForm');
+  const resultArea = document.getElementById('resultArea');
+  const shortLink = document.getElementById('shortLink');
+  const copyBtn = document.getElementById('copyBtn');
+  const totalClicks = document.getElementById('totalClicks');
+  const createdAt = document.getElementById('createdAt');
+  const codeVal = document.getElementById('codeVal');
+  const dailyStats = document.getElementById('dailyStats');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const originalUrl = document.getElementById('originalUrl').value.trim();
+    const customAlias = document.getElementById('customAlias').value.trim() || null;
+    try {
+      const resp = await fetch('/shorten', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ originalUrl, customAlias })
+      });
+      if (resp.status === 201) {
+        const data = await resp.json();
+        const href = data.shortUrl.startsWith('/') ? window.location.origin + data.shortUrl : data.shortUrl;
+        shortLink.href = href;
+        shortLink.textContent = href;
+        codeVal.textContent = data.shortCode;
+        resultArea.style.display = 'block';
+        // fetch analytics
+        fetchAnalytics(data.shortCode);
+      } else {
+        const err = await resp.json().catch(()=>({message:'Unexpected error'}));
+        alert('Error: ' + (err.message || 'Unable to shorten URL'));
+      }
+    } catch (ex) {
+      alert('Network error: ' + ex.message);
+    }
+  });
+
+  copyBtn.addEventListener('click', async () => {
+    try {
+      await navigator.clipboard.writeText(shortLink.href);
+      copyBtn.textContent = 'Copied!';
+      setTimeout(()=>copyBtn.textContent='Copy',2000);
+    } catch (ex) {
+      alert('Copy failed: ' + ex.message);
+    }
+  });
+
+  async function fetchAnalytics(code) {
+    try {
+      const resp = await fetch('/analytics/' + encodeURIComponent(code));
+      if (resp.ok) {
+        const stats = await resp.json();
+        totalClicks.textContent = stats.totalClicks ?? '0';
+        createdAt.textContent = stats.createdAt ? new Date(stats.createdAt).toLocaleString() : '—';
+        // daily clicks map
+        const daily = stats.dailyClicks || {};
+        if (Object.keys(daily).length) {
+          dailyStats.innerHTML = '<h6 class="mt-3">Daily Clicks</h6>' +
+            '<ul>' + Object.entries(daily).map(([d,c])=>`<li>${d}: ${c}</li>`).join('') + '</ul>';
+        } else {
+          dailyStats.innerHTML = '';
+        }
+      }
+    } catch (ex) { console.warn('Analytics fetch failed', ex); }
+  }
+</script>
+</body>
+</html>
