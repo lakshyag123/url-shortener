@@ -6,7 +6,9 @@ import com.paytm.urlshortener.dto.UrlStatsResponse;
 import com.paytm.urlshortener.service.UrlService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -21,7 +23,6 @@ import java.net.URI;
 
 /**
  * REST controller exposing URL shortening endpoints.
- * Uses constructor injection via Lombok's @RequiredArgsConstructor.
  */
 @RestController
 @RequiredArgsConstructor
@@ -35,7 +36,14 @@ public class UrlController {
     @ApiResponse(responseCode = "400", description = "Bad request")
     @ApiResponse(responseCode = "409", description = "Custom alias conflict")
     @PostMapping(path = "/shorten", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<CreateShortUrlResponse> shorten(@Valid @RequestBody CreateShortUrlRequest request) {
+    public ResponseEntity<CreateShortUrlResponse> shorten(
+            @Valid
+            @RequestBody(description = "Request to create a short URL",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CreateShortUrlRequest.class),
+                            examples = @ExampleObject(name = "example",
+                                    value = "{\"originalUrl\": \"https://www.paytm.com/offers/special?page=1\", \"customAlias\": \"paytm-offer\"}")))
+                    CreateShortUrlRequest request) {
         CreateShortUrlResponse resp = urlService.shortenUrl(request);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .replacePath("/{code}")
